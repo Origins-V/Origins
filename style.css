@@ -1,0 +1,270 @@
+/* --- General Styling & Cursors --- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #111;
+    color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    cursor: url('pico-gun.png') 4 4, auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a, label.tab-link, input[type="submit"] {
+    cursor: url('pico-icon-thingpng.png') 4 4, pointer;
+}
+
+input[name="tab-control"] { display: none; }
+
+/* --- Navigation Bar --- */
+nav {
+    background-color: #000;
+    border-bottom: 2px solid crimson;
+    padding: 0.5rem 0;
+    box-shadow: 0 4px 10px rgba(220, 20, 60, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li { margin: 0 10px; }
+
+.tab-link {
+    background-color: transparent;
+    border: 2px solid transparent;
+    color: #f0f0f0;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.tab-link:hover {
+    background-color: #1a1a1a;
+    color: #fff;
+    transform: translateY(-2px);
+    text-shadow: 0 0 8px rgba(220, 20, 60, 0.8);
+}
+
+#tab-home:checked ~ nav .tab-link[for="tab-home"],
+#tab-history:checked ~ nav .tab-link[for="tab-history"],
+#tab-engineering:checked ~ nav .tab-link[for="tab-engineering"],
+#tab-models:checked ~ nav .tab-link[for="tab-models"] {
+    background-color: crimson;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 0 10px #fff, 0 0 5px #fff;
+}
+
+/* --- Content Wrapper --- */
+.content-wrapper {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    perspective: 1500px;
+    overflow: hidden;
+    background: linear-gradient(-45deg, #1a1a1a, #2a2a2a, #111, #1a1a1a);
+    background-size: 400% 400%;
+    animation: bgPulse 15s ease infinite;
+    will-change: transform;
+}
+
+@keyframes bgPulse {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Panels */
+.content-panel { display: none; }
+
+#tab-home:checked ~ .content-wrapper #home,
+#tab-history:checked ~ .content-wrapper #history,
+#tab-engineering:checked ~ .content-wrapper #engineering,
+#tab-models:checked ~ .content-wrapper #models {
+    display: block;
+    animation: panelSwingIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes panelSwingIn {
+    from { opacity: 0; transform: translateX(-60px) rotateY(18deg); }
+    to { opacity: 1; transform: translateX(0) rotateY(0); }
+}
+
+/* --- Child Animations ---- */
+.content-panel > * {
+    opacity: 0;
+    transform: translateY(8px);
+}
+
+@keyframes childFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* h1 */
+#tab-home:checked ~ .content-wrapper #home h1,
+#tab-history:checked ~ .content-wrapper #history h1,
+#tab-engineering:checked ~ .content-wrapper #engineering h1,
+#tab-models:checked ~ .content-wrapper #models h1 {
+    animation: childFadeIn 0.42s 0.16s ease-out forwards;
+}
+
+/* h2, h3 */
+#tab-home:checked ~ .content-wrapper #home h2,
+#tab-history:checked ~ .content-wrapper #history h2,
+#tab-engineering:checked ~ .content-wrapper #engineering h2,
+#tab-models:checked ~ .content-wrapper #models h2,
+#tab-models:checked ~ .content-wrapper #models h3 {
+    animation: childFadeIn 0.46s 0.22s ease-out forwards;
+}
+
+/* p + styled lists */
+#tab-home:checked ~ .content-wrapper #home p,
+#tab-home:checked ~ .content-wrapper #home .styled-list,
+#tab-history:checked ~ .content-wrapper #history p,
+#tab-engineering:checked ~ .content-wrapper #engineering p,
+#tab-engineering:checked ~ .content-wrapper #engineering .styled-list,
+#tab-models:checked ~ .content-wrapper #models p {
+    animation: childFadeIn 0.48s 0.28s ease-out forwards;
+}
+
+/* MODELS TAB FIX — animate the text inside model-specs */
+#tab-models:checked ~ .content-wrapper #models .model-specs > * {
+    animation: childFadeIn 0.5s 0.32s ease-out forwards;
+}
+
+/* Model Specs Box */
+.model-specs {
+    background-color: #222;
+    border-left: 4px solid crimson;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 4px;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+#tab-models:checked ~ .content-wrapper #models .model-specs {
+    animation: childFadeIn 0.6s 0.25s ease-out forwards;
+}
+
+.model-specs p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #f0f0f0;
+}
+
+.model-specs strong {
+    color: #fff;
+    min-width: 120px;
+    display: inline-block;
+}
+
+/* Text styling */
+h1 {
+    color: crimson;
+    border-bottom: 2px solid crimson;
+    padding-bottom: 10px;
+}
+
+h2 {
+    color: crimson;
+    border-bottom: 1px solid #555;
+    padding-bottom: 5px;
+    margin-top: 30px;
+}
+
+h3 {
+    color: crimson;
+    margin-top: 25px;
+    margin-bottom: -10px;
+}
+
+p {
+    color: #f0f0f0;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.styled-list {
+    color: #f0f0f0;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    list-style-type: square;
+    padding-left: 30px;
+}
+
+.styled-list strong { color: #fff; }
+
+/* ---------------------------
+   PARTICLES (optimized)
+--------------------------- */
+.particle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: 50%;
+    opacity: 0.9;
+    transform: translate3d(0,0,0);
+    will-change: transform, opacity;
+    mix-blend-mode: screen;
+    transition: transform 0.6s linear;
+    animation-name: particleFloat;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    filter: blur(0.4px);
+    box-shadow: 0 0 6px rgba(0,0,0,0.25);
+}
+
+@keyframes particleFloat {
+    0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0.85; }
+    50%  { transform: translate3d(8px, -18px, 0) scale(1.03); opacity: 0.9; }
+    100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.8; }
+}
+
+.particle.big {
+    width: 8px !important;
+    height: 8px !important;
+    filter: blur(0.9px);
+    box-shadow: 0 0 14px rgba(0,0,0,0.25);
+    opacity: 1;
+}
+
+/* Ribbon Canvas */
+#cursorRibbon {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    z-index: 1500;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .particle { animation: none; opacity: 0.7; }
+    #cursorRibbon { display: none; }
+    .content-wrapper, .tab-link { transition: none !important; animation: none !important; }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+    .particle { display: none; }
+    #cursorRibbon { display: none; }
+}
